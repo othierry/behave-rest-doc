@@ -1,0 +1,786 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Behave-rest-doc by othierry</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Behave-rest-doc</h1>
+        <p class="header">behave-rest-doc</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/othierry/behave-rest-doc/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/othierry/behave-rest-doc/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/othierry/behave-rest-doc">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/othierry">othierry</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a name="introduction" class="anchor" href="#introduction"><span class="octicon octicon-link"></span></a>Introduction</h1>
+
+<p>This documentation uses curl to make calls to our REST API and shows you how to use the service.</p>
+
+<ol>
+<li>
+<a href="#players">Players</a>
+
+<ul>
+<li><a href="#identify">Identify</a></li>
+<li>Add Identity (Social)</li>
+</ul>
+</li>
+<li>
+<a href="#behaviours">Behaviours</a>
+
+<ul>
+<li><a href="#simple-tracking">Simple tracking</a></li>
+<li><a href="#contextual-tracking">Contextual tracking</a></li>
+<li><a href="#using-the-tracking-response">Using the tracking response</a></li>
+</ul>
+</li>
+<li>Leaderboards
+
+<ul>
+<li><a href="#getting-leaderboard-current-results">Getting leaderboard current results</a></li>
+<li><a href="#">Getting leaderboard results for a specific player</a></li>
+<li><a href="#">Creating a Leaderboard</a></li>
+<li><a href="#">Creating a Leaderboard with rewards (Contest)</a></li>
+<li><a href="#">Deleting a Leaderboard</a></li>
+</ul>
+</li>
+<li>Badges
+
+<ul>
+<li>Getting player's unlocked badges</li>
+<li>Getting player's locked badges</li>
+<li>Creating a Badge</li>
+<li>Deleting a Badge</li>
+</ul>
+</li>
+</ol><h2>
+<a name="players" class="anchor" href="#players"><span class="octicon octicon-link"></span></a>Players</h2>
+
+<h3>
+<a name="identify" class="anchor" href="#identify"><span class="octicon octicon-link"></span></a>Identify</h3>
+
+<p>You need to identify your users at least once so their player profiles can be created.
+If you identify a user multiple times with the same id, the existing player will be updated and returned instead of being created. You can optionally attribute some traits to the player.</p>
+
+<ul>
+<li>
+<strong>Method:</strong> POST</li>
+<li>
+<strong>Endpoint:</strong> /players/:unique_id</li>
+<li><strong>Parameters:</strong></li>
+</ul><table>
+<thead><tr>
+<th>Name</th>
+<th align="center">Type</th>
+<th align="right">Value</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>traits</td>
+<td align="center">Object</td>
+<td align="right">(optional) The custom traits you assign to the player. You can use any key-value pair to give attributes to the player. The 2 special fields: <code>name</code> and <code>picture</code> will be used as display information from the admin interface. We recommend to specify them if you can.</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td align="center">Number</td>
+<td align="right">(optional) A <strong>unix timestamp</strong> that tells when this identification happened. <strong>Make sure you specify a timestamp when importing data</strong>. We will use the server's current time by default.</td>
+</tr>
+</tbody>
+</table><p>Example:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"Content-Type:application/json"</span>
+-d <span class="s1">'{</span>
+<span class="s1">  "traits": {</span>
+<span class="s1">    "email": "olivier@behave.io",</span>
+<span class="s1">    "name": "Olivier Thierry",</span>
+<span class="s1">    "picture": "http://url_to_picture",</span>
+<span class="s1">    "foo": "bar"</span>
+<span class="s1">  }</span>
+<span class="s1">}'</span>
+</pre></div>
+
+<p>the returned Player has the following attributes</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th align="center">Type</th>
+<th align="right">Value</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>_id</td>
+<td align="center">String</td>
+<td align="right">The id of the Player</td>
+</tr>
+<tr>
+<td>reference_id</td>
+<td align="center">String</td>
+<td align="right">The custom unique id you have specified to identify this player</td>
+</tr>
+<tr>
+<td>points</td>
+<td align="center">Number</td>
+<td align="right">The number of points of the player (default to 0)</td>
+</tr>
+<tr>
+<td>traits</td>
+<td align="center">Object</td>
+<td align="right">The custom traits you have given to the player</td>
+</tr>
+</tbody>
+</table><h2>
+<a name="behaviours" class="anchor" href="#behaviours"><span class="octicon octicon-link"></span></a>Behaviours</h2>
+
+<p>You need to track your players behaviours if you want to reward them for doing so! Tracking can be either <strong>simple</strong> or <strong>contextual</strong>. You can specify ANY key value pairs to describe the context to which the behaviour was taken (See examples below):</p>
+
+<ul>
+<li>
+<strong>Method:</strong> POST</li>
+<li>
+<strong>Endpoint:</strong> /players/:player_id/track</li>
+<li><strong>Parameters:</strong></li>
+</ul><table>
+<thead><tr>
+<th>Name</th>
+<th align="center">Type</th>
+<th align="right">Value</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>verb</td>
+<td align="center">String</td>
+<td align="right">The name of the behaviour you are tracking</td>
+</tr>
+<tr>
+<td>context</td>
+<td align="center">Object</td>
+<td align="right">(optional) You can specify ANY key value pairs to describe the context to which the behaviour was taken. Optionally, A special field <code>timestamp</code> <strong>(unix timestamp)</strong> defines when was this behaviour taken. <strong>Make sure you specify a timestamp when importing data</strong>. We will use the server's current time by default.</td>
+</tr>
+</tbody>
+</table><h3>
+<a name="simple-tracking" class="anchor" href="#simple-tracking"><span class="octicon octicon-link"></span></a>Simple tracking</h3>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/track
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"Content-Type:application/json"</span>
+-d <span class="s1">'{</span>
+<span class="s1"> "verb": "login"</span>
+<span class="s1">}'</span>
+</pre></div>
+
+<h3>
+<a name="contextual-tracking" class="anchor" href="#contextual-tracking"><span class="octicon octicon-link"></span></a>Contextual tracking</h3>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/track
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"Content-Type:application/json"</span>
+-d <span class="s1">'{</span>
+<span class="s1"> "verb": "check-in",</span>
+<span class="s1"> "context": {</span>
+<span class="s1">   "placeId": "42",</span>
+<span class="s1">   "with_friends": ["43", "44", "45"]</span>
+<span class="s1"> }</span>
+<span class="s1">}'</span>
+</pre></div>
+
+<h3>
+<a name="using-the-tracking-response" class="anchor" href="#using-the-tracking-response"><span class="octicon octicon-link"></span></a>Using the tracking response</h3>
+
+<p>When you track a user behaviour, you get back a response of basically what happened. The response contains the actions that the tracking has triggered (from your <a href="http://dashboard.behave.io/recipes">recipes</a>).</p>
+
+<p>The response <strong>always contains 3 attributes</strong>.</p>
+
+<table>
+<thead><tr>
+<th>Name</th>
+<th align="center">Type</th>
+<th align="right">Value</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>badges</td>
+<td align="center">Array[Object]</td>
+<td align="right">The unlocked badges</td>
+</tr>
+<tr>
+<td>points</td>
+<td align="center">Object</td>
+<td align="right">With 2 attributes: <code>earned</code> and <code>balance</code>. <code>earned</code> is the number of points the user earned by taking the action or 0 if no points earned, <code>balance</code> is the updated balance of the player points</td>
+</tr>
+<tr>
+<td>leaderboards</td>
+<td align="center">Array[Object]</td>
+<td align="right">Leaderboard updates (if any,  empty otherwise). See bellow for detailed structure</td>
+</tr>
+</tbody>
+</table><p>Example:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/track
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"Content-Type:application/json"</span>
+-F <span class="s1">'{</span>
+<span class="s1"> "verb": "check-in",</span>
+<span class="s1"> "context": {</span>
+<span class="s1">   "placeId" : "42"</span>
+<span class="s1">   "placeName" : "Deloitte",</span>
+<span class="s1">   "with_mates" : []</span>
+<span class="s1"> }</span>
+<span class="s1">}'</span>
+
+<span class="c"># Example Response</span>
+<span class="o">{</span>
+  <span class="s2">"data"</span>: <span class="o">{</span>
+    <span class="s2">"points"</span>: <span class="o">{</span>
+      <span class="c"># Points earned due to action</span>
+      <span class="s2">"earned"</span>: 42,
+      <span class="c"># Updated points balance</span>
+      <span class="s2">"balance"</span>: 84
+    <span class="o">}</span>,
+    <span class="s2">"badges"</span>: <span class="o">[</span>
+      <span class="o">{</span>
+        <span class="c"># Reward id</span>
+        <span class="s2">"_id"</span>    : <span class="s2">"52a01b67cc7df72c79000003"</span>,
+        <span class="c"># Number of times this reward was earned by this player</span>
+        <span class="s2">"count"</span> : 1,
+        <span class="c"># Badge definition</span>
+        <span class="s2">"badge"</span> : <span class="o">{</span>
+          <span class="c"># Badge id</span>
+          <span class="s2">"_id"</span>          : <span class="s2">"529fff2356ce248366000006"</span>
+          <span class="c"># Badge custom id you have defined, null otherwise</span>
+          <span class="s2">"reference_id"</span> : <span class="s2">"deloitte-newbie-badge"</span>
+          <span class="c"># badge name</span>
+          <span class="s2">"name"</span>         : <span class="s2">"Deloitte Newbie"</span>
+          <span class="c"># badge hint</span>
+          <span class="s2">"hint"</span>         : <span class="s2">"Check-in 2 times at Deloitte"</span>
+          <span class="c"># badge unlock message</span>
+          <span class="s2">"message"</span>      : <span class="s2">"Whooa! Look like you are new in da place. keep the effort and you will be rewarded."</span>
+        <span class="o">}</span>
+      <span class="o">}</span>,
+      <span class="c"># ...</span>
+     <span class="o">]</span>,
+    <span class="s2">"leaderboards"</span>: <span class="o">[</span>
+      <span class="o">{</span>
+         <span class="c"># The updated leaderboard</span>
+         <span class="s2">"leaderboard"</span> : <span class="o">{</span>
+           <span class="s2">"_id"</span> : <span class="s2">"529fff1156ce248366000006"</span>,
+           <span class="s2">"reference_id"</span> : <span class="s2">"test-lb"</span>
+         <span class="o">}</span>,
+         <span class="c"># Player's position before the update</span>
+         <span class="s2">"prev_position"</span> : 5,
+         <span class="c"># Player's position after the update</span>
+         <span class="s2">"post_position"</span> : 2,
+         <span class="c"># Player's updated score</span>
+         <span class="s2">"score"</span> : 435
+      <span class="o">}</span>,
+      <span class="c"># ...</span>
+    <span class="o">]</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<ul>
+<li>
+<strong>data.points</strong> contains 2 attributes: <code>earned</code> and <code>balance</code>. <code>earned</code> is the points that the player has earned by performing the behaviour and <code>earned</code> is the updated points balance.</li>
+<li>
+<strong>data.badges</strong> is an array that contains the Badges that the user has just unlocked.</li>
+<li>
+<strong>data.leaderboards</strong> is an array that contains leaderboard updates if any. An leaderboard update contains info about the updated score, the previous position (before the tracking) and the post position (after the tracking).</li>
+</ul><h2>
+<a name="leaderboards" class="anchor" href="#leaderboards"><span class="octicon octicon-link"></span></a>Leaderboards</h2>
+
+<p><strong>Note:</strong> If you want to test you leaderboard results, you can directly use <a href="http://dashboard.behave.io/#/simulator">the built-in simulator</a> to test API calls.</p>
+
+<h3>
+<a name="getting-leaderboard-current-results" class="anchor" href="#getting-leaderboard-current-results"><span class="octicon octicon-link"></span></a>Getting leaderboard current results</h3>
+
+<p>You can fetch the actual results of any leaderboard at anytime. Here is an example:</p>
+
+<ul>
+<li>
+<strong>Method:</strong> POST</li>
+<li>
+<strong>Endpoint:</strong> /leaderboards/:leaderboard_reference_id/results</li>
+<li><strong>Parameters:</strong></li>
+</ul><table>
+<thead><tr>
+<th>Name</th>
+<th align="center">Type</th>
+<th align="right">Value</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>offset</td>
+<td align="center">Number</td>
+<td align="right">(Optional) The number of positions to skip (0 = 1st position)</td>
+</tr>
+<tr>
+<td>limit</td>
+<td align="center">Number</td>
+<td align="right">(Optional) The max number of results per page. MAXIMUM is 1000</td>
+</tr>
+<tr>
+<td>max</td>
+<td align="center">Number</td>
+<td align="right">(Optional) The maximum position to fetch, default is 0 =&gt; None</td>
+</tr>
+<tr>
+<td>player_id</td>
+<td align="center">String</td>
+<td align="right">A player's reference_id (Optional). If specified, the given player will ALWAYS appear in the results (not duplicated). It is very useful if for example you want to always include the current player in the results</td>
+</tr>
+<tr>
+<td>players</td>
+<td align="center">Array[String]</td>
+<td align="right">(Optional) The players to include in the results, default is null =&gt; ALL</td>
+</tr>
+<tr>
+<td>positions</td>
+<td align="center">String</td>
+<td align="right">(Optional) The way positions are calculated. Possible values are <code>relative</code> and <code>absolute</code>. <code>relative</code> will set the positions according to the players that are included in the results, <code>absolute</code> will set the positions according to all the players in the leaderboards. This is useful when for example you want to fetch the results for a player and his friends only. In this situation you could pass <code>relative</code> so that the positions are computed between friends and not between all the players in the leaderboards.</td>
+</tr>
+<tr>
+<td>context</td>
+<td align="center">Object</td>
+<td align="right">(Optional) You can segment results according to a specific context. For example, on a leaderboard with <code>all-time</code> timeframe, if you want to get the results of weeks 42 only you could have <code>{ timestamp: '&gt;=1381701600,&lt;1382306400' }</code>. You can also use any custom key you have specified in the context when tracking behaviours using <code>track()</code>.  <strong>On large leaderboards this can have an impact on performances.</strong>
+</td>
+</tr>
+</tbody>
+</table><p>Example:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards/my-leaderboard/results
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"Content-Type:application/json"</span>
+-F <span class="s1">'{</span>
+<span class="s1">  "max": 2,</span>
+<span class="s1">  "player_id": "48"</span>
+<span class="s1">}'</span>
+
+<span class="c"># Example Response</span>
+<span class="o">[</span>
+  <span class="o">{</span>
+    <span class="s2">"score"</span> : 129,
+    <span class="s2">"position"</span> : 1,
+    <span class="s2">"player"</span> : <span class="o">{</span>
+      <span class="s2">"_id"</span> : <span class="s2">"529fe03ecbd86b9d6c000002"</span>,
+      <span class="s2">"reference_id"</span> : <span class="s2">"42"</span>,
+      <span class="s2">"traits"</span> : <span class="o">{</span>
+        <span class="s2">"name"</span>  : <span class="s1">'Olivier Thierry'</span>
+        <span class="s2">"email"</span> : <span class="s1">'olivier@behave.io'</span>
+      <span class="o">}</span>,
+      <span class="s2">"identities"</span> : <span class="o">{</span>
+         <span class="s2">"facebook"</span> : 12323
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>,
+  <span class="o">{</span>
+    <span class="s2">"score"</span> : 102,
+    <span class="s2">"position"</span> : 2,
+    <span class="s2">"player"</span> : <span class="o">{</span>
+      <span class="s2">"_id"</span> : <span class="s2">"947pg03ecbd86b9d6c05520"</span>,
+      <span class="s2">"reference_id"</span> : <span class="s2">"43"</span>,
+      <span class="s2">"traits"</span> : <span class="o">{</span>
+        <span class="s2">"name"</span>  : <span class="s2">"Olivier Jeandel"</span>
+        <span class="s2">"email"</span> : <span class="s2">"jide@behave.io"</span>
+      <span class="o">}</span>,
+      <span class="s2">"identities"</span> : <span class="o">{</span>
+         <span class="s2">"facebook"</span> : 5435
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>,
+  <span class="o">{</span>
+    <span class="s2">"score"</span> : 12,
+    <span class="s2">"position"</span> : 54,
+    <span class="s2">"player"</span> : <span class="o">{</span>
+      <span class="s2">"_id"</span> : <span class="s2">"724pg03ecbd86b9d6c05522"</span>,
+      <span class="s2">"reference_id"</span> : <span class="s2">"48"</span>,
+      <span class="s2">"traits"</span> : <span class="o">{</span>
+        <span class="s2">"name"</span>  : <span class="s2">"Foo Bar"</span>
+        <span class="s2">"email"</span> : <span class="s2">"foo@bar.com"</span>
+      <span class="o">}</span>,
+      <span class="s2">"identities"</span> : <span class="o">{</span>
+         <span class="s2">"facebook"</span> : 31245
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>,
+<span class="o">]</span>
+</pre></div>
+
+<h3>
+<a name="getting-leaderboard-results-for-a-specific-player" class="anchor" href="#getting-leaderboard-results-for-a-specific-player"><span class="octicon octicon-link"></span></a>Getting leaderboard results for a specific player</h3>
+
+<p>You can also fetch the result for a particular player, on a particular leaderboard. (<em>e.g What is the position of my user 42 on leaderboard test-lb</em>)</p>
+
+<ul>
+<li>
+<strong>Method:</strong> POST</li>
+<li>
+<strong>Endpoint:</strong> /leaderboards/player-results</li>
+<li>
+<strong>Parameters:</strong> </li>
+</ul><table>
+<thead><tr>
+<th>Name</th>
+<th align="center">Type</th>
+<th align="right">Value</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>player_id</td>
+<td align="center">String</td>
+<td align="right">(<strong>Required</strong>) The player to fetch results from</td>
+</tr>
+<tr>
+<td>leaderboards</td>
+<td align="center">Array[String]</td>
+<td align="right">(<strong>Optional</strong>) Leaderboards to process, if empty all the leaderboards will be processed.</td>
+</tr>
+<tr>
+<td>max</td>
+<td align="center">Number</td>
+<td align="right">(<strong>Optional</strong>) The maximum player position acceptance for the leaderboard to be selected.</td>
+</tr>
+</tbody>
+</table><div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards/player-results
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"Content-Type:application/json"</span>
+-F <span class="s1">'{</span>
+<span class="s1">  "player_id" : "43",</span>
+<span class="s1">  "leaderboard" : ["leaderboard1", "leaderboard2"]</span>
+<span class="s1">}'</span>
+
+<span class="c"># Example Response</span>
+<span class="o">[</span>
+  <span class="o">{</span>
+     <span class="s2">"leaderboard"</span> : <span class="o">{</span>
+        <span class="s2">"_id"</span> : <span class="s2">"529fff1156ce248366000006"</span>,
+        <span class="s2">"reference_id"</span> : <span class="s2">"leaderboard1"</span>
+     <span class="o">}</span>,
+     <span class="c"># Player's position</span>
+     <span class="s2">"position"</span> : 2,
+     <span class="c"># Player's updated score</span>
+     <span class="s2">"score"</span> : 435
+  <span class="o">}</span>,
+  <span class="o">{</span>
+     <span class="s2">"leaderboard"</span> : <span class="o">{</span>
+        <span class="s2">"_id"</span> : <span class="s2">"876fff1156ce248366000367"</span>,
+        <span class="s2">"reference_id"</span> : <span class="s2">"leaderboard2"</span>
+     <span class="o">}</span>,
+     <span class="s2">"position"</span> : 18,
+     <span class="s2">"score"</span> : 114
+  <span class="o">}</span>
+<span class="o">]</span>
+</pre></div>
+
+<h3>
+<a name="creating-a-leaderboard" class="anchor" href="#creating-a-leaderboard"><span class="octicon octicon-link"></span></a>Creating a Leaderboard</h3>
+
+<p><strong>Note:</strong> You can manage your leaderboards directly <a href="http://dashboard.behave.io/#/leaderboards">from the dashboard</a>. In case your app needs to dynamically create leaderboards you can use the API to do so.</p>
+
+<ul>
+<li>
+<strong>Method:</strong> POST</li>
+<li>
+<strong>Endpoint:</strong> /leaderboards</li>
+<li><strong>Parameters:</strong></li>
+</ul><table>
+<thead><tr>
+<th>Name</th>
+<th align="center">Type</th>
+<th align="right">Value</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>type</td>
+<td align="center">Number</td>
+<td align="right">(Optional) - Available values are <code>0</code> (score) and <code>1</code> (behavioural). Default is 0</td>
+</tr>
+<tr>
+<td>scoreType</td>
+<td align="center">Number</td>
+<td align="right">(Optional) - You can specify how the scores are computed, <code>1</code> will increment scores, <code>0</code> will keep the maximum score for a player and discard the other ones. Note that for a leaderboard with type <code>1</code> (behavioural), the scoring type will always be <code>1</code> (sum)</td>
+</tr>
+<tr>
+<td>timeFrame</td>
+<td align="center">Number</td>
+<td align="right">(Optional) - Specify how often the leaderboard should be reset. Possible values are: <code>0</code> (All time), <code>1</code> (Daily), <code>2</code> (Weekly), <code>3</code> (Monthly). Default to <code>0</code> (All time)</td>
+</tr>
+<tr>
+<td>rewards</td>
+<td align="center">Array[Object]</td>
+<td align="right">Rewards for that leaderboard. See bellow for example. (Optional)</td>
+</tr>
+<tr>
+<td>metadata</td>
+<td align="center">Object</td>
+<td align="right">Metadata are used if you want to keep track of some application-logic related data. (Optional)</td>
+</tr>
+<tr>
+<td>active</td>
+<td align="center">Boolean</td>
+<td align="right">Is the leaderboard active? Default to true</td>
+</tr>
+</tbody>
+</table><p>Example:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"Content-Type:application/json"</span>
+-F <span class="s1">'{</span>
+<span class="s1">  "name"         : "Influencers Leaderboard",</span>
+<span class="s1">  "type"         : 0,      # 0 = score leaderboard (!= behavioural leaderboard)</span>
+<span class="s1">  "scoreType"    : 0       # 0 = absolute score (we keep the maximum score)</span>
+<span class="s1">  "timeFrame"    : 2,      # Weekly leaderboard</span>
+<span class="s1">  "active"       : "true"  # Defaults,</span>
+<span class="s1">  "metadata"     : [</span>
+<span class="s1">    "foo" : "bar",</span>
+<span class="s1">    "custom_data" : "goes here"</span>
+<span class="s1">  ]</span>
+<span class="s1">}'</span>
+</pre></div>
+
+<h3>
+<a name="creating-a-leaderboard-with-rewards-contest" class="anchor" href="#creating-a-leaderboard-with-rewards-contest"><span class="octicon octicon-link"></span></a>Creating a leaderboard with rewards (Contest)</h3>
+
+<p>You can also bind rewards to a leaderboard (So it becomes a contest).
+Rewards are Badges. Each reward defines the position in the leaderboard to who this rewards should be given and the Badge that it refers to.</p>
+
+<p>You can define contest leaderboard this way.</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"Content-Type:application/json"</span>
+-F <span class="s1">'{</span>
+<span class="s1">  "name"         : "Influencers Leaderboard",</span>
+<span class="s1">  "type"         : 0,      # 0 = score leaderboard (!= behavioural leaderboard)</span>
+<span class="s1">  "scoreType"    : 0       # 0 = absolute score (we keep the maximum score)</span>
+<span class="s1">  "timeFrame"    : 2,      # Weekly leaderboard</span>
+<span class="s1">  "active"       : "true"  # Defaults,</span>
+<span class="s1">  "metadata"     : [</span>
+<span class="s1">    "foo" : "bar",</span>
+<span class="s1">    "custom_data" : "goes here"</span>
+<span class="s1">  ]</span>
+<span class="s1">}'</span>
+</pre></div>
+
+<h3>
+<a name="deleting-a-leaderboard" class="anchor" href="#deleting-a-leaderboard"><span class="octicon octicon-link"></span></a>Deleting a leaderboard</h3>
+
+<p>You can delete a leaderboard at anytime. <strong>THIS ACTION CANNOT BE UNDONE</strong></p>
+
+<ul>
+<li>
+<strong>Method:</strong> DELETE</li>
+<li>
+<strong>Endpoint:</strong> /leaderboards/:leaderboard_reference_id</li>
+</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards/my-leaderboard
+-X DELETE
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"Content-Type:application/json"</span>
+</pre></div>
+
+<h2>
+<a name="badges" class="anchor" href="#badges"><span class="octicon octicon-link"></span></a>Badges</h2>
+
+<h3>
+<a name="getting-players-unlocked-badges" class="anchor" href="#getting-players-unlocked-badges"><span class="octicon octicon-link"></span></a>Getting player's unlocked badges</h3>
+
+<ul>
+<li>
+<strong>Method:</strong> GET</li>
+<li>
+<strong>Endpoint:</strong> /players/:player_reference_id/badges</li>
+</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/badges
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+
+<span class="c"># Example Response</span>
+<span class="o">{</span>
+  <span class="s2">"data"</span>: <span class="o">[</span>
+    <span class="o">{</span>
+      // Reward id
+      <span class="s2">"_id"</span>: <span class="s2">"530007cf0af9fbcf2d58e779"</span>,
+
+      // Reward owner <span class="o">(</span>the player<span class="o">)</span>
+      <span class="s2">"player"</span>: <span class="s2">"530006e4f27bfdb92dc3eac1"</span>,
+
+      // Last <span class="nb">time </span>the badge was unlocked <span class="o">(</span>unix timestamp<span class="o">)</span>
+      <span class="s2">"lastUnlockedAt"</span>: 1392510927,
+
+      // The number of <span class="nb">times </span>this badges has been unlocked by this player
+      <span class="s2">"count"</span>: 1
+
+      // The reward<span class="s1">'s badge </span>
+<span class="s1">      "badge": {</span>
+<span class="s1">        // Badge id</span>
+<span class="s1">        "_id": "52b83490739f878842000014",</span>
+
+<span class="s1">        // Is the badge active?</span>
+<span class="s1">        "active": true,</span>
+
+<span class="s1">        // Current app</span>
+<span class="s1">        "app_id": "52b0f1d32e2ce4e91100000c",</span>
+
+<span class="s1">        // Badge Hint</span>
+<span class="s1">        "hint": "Trouvez 1 mot en moins de 7 secondes.",</span>
+
+<span class="s1">        // Badge Icon</span>
+<span class="s1">        "icon": "https://s3-eu-west-1.amazonaws.com/behave-production/uploads/9d05563b89934f615951bc6425f029e6.png",</span>
+
+<span class="s1">         // The limit of unlocks that can be done (e.g limit of 10 means that maximum 10 players can unlock the badge)        </span>
+<span class="s1">        "limit": 0,</span>
+
+<span class="s1">        "localization": {</span>
+<span class="s1">          "fr_FR": {</span>
+<span class="s1">            "message": "Moins de 7 secondes pour 1 mot est un challenge ! Bravo.",</span>
+<span class="s1">            "hint": "Trouvez 1 mot en moins de 7 secondes.",</span>
+<span class="s1">            "name": "Flash Gordon",</span>
+<span class="s1">            "is_default": false</span>
+<span class="s1">          },</span>
+<span class="s1">          "en_US": {</span>
+<span class="s1">            "is_default": true</span>
+<span class="s1">          }</span>
+<span class="s1">        },</span>
+
+<span class="s1">        // Badge message (when unlocked)</span>
+<span class="s1">        "message": "Vous l'</span>avez fait ! Moins de 7 secondes pour 1 mot est un challenge ! Bravo.<span class="s2">",</span>
+
+<span class="s2">        // Badge name</span>
+<span class="s2">        "</span>name<span class="s2">": "</span>Flash Gordon<span class="s2">",</span>
+
+<span class="s2">        // Badge reference_id</span>
+<span class="s2">        "</span>reference_id<span class="s2">": "</span>flash-gordon<span class="s2">",</span>
+
+<span class="s2">        // Badge social bindings (OpenGraph) if enabled from the dashboard</span>
+<span class="s2">        "</span>social<span class="s2">": {</span>
+<span class="s2">          "</span>facebook<span class="s2">": {</span>
+<span class="s2">            "</span>ogType<span class="s2">": "</span>pics-n-words:badge<span class="s2">",</span>
+<span class="s2">            // Badge id in the facebook opengraph</span>
+<span class="s2">            "</span>ogId<span class="s2">": "</span>775995212414594<span class="s2">"</span>
+<span class="s2">          }</span>
+<span class="s2">        },</span>
+
+<span class="s2">        // Is the badge unique? (can be unlocked once per player)</span>
+<span class="s2">        "</span>unique<span class="err">"</span>: <span class="nb">true</span>
+      <span class="o">}</span>
+    <span class="o">}</span>,
+    // ...
+</pre></div>
+
+<h3>
+<a name="getting-players-locked-badges" class="anchor" href="#getting-players-locked-badges"><span class="octicon octicon-link"></span></a>Getting player's locked badges</h3>
+
+<ul>
+<li>
+<strong>Method:</strong> GET</li>
+<li>
+<strong>Endpoint:</strong> /players/:player_reference_id/badges/todo</li>
+</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/badges/todo
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+
+<span class="c"># Example Response</span>
+<span class="o">{</span>
+  <span class="s2">"data"</span>: <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">"_id"</span>: <span class="s2">"52b838c8739f87884200001c"</span>,
+
+      <span class="s2">"app_id"</span>: <span class="s2">"52b0f1d32e2ce4e91100000c"</span>,
+
+      // Badge Hint
+      <span class="s2">"hint"</span>: <span class="s2">"Watch a video trailer in the shop"</span>,
+
+      // Badge Icon
+      <span class="s2">"icon"</span>: <span class="s2">"https://s3-eu-west-1.amazonaws.com/behave-production/uploads/6827c5d570dece337c123fcf9447abf7.png"</span>,
+
+      // Badge message <span class="o">(</span>when unlocked<span class="o">)</span>
+      <span class="s2">"message"</span>: <span class="s2">"Yeah! You like trailers and mobile games but do you like words?!"</span>,
+
+      // Badge name
+      <span class="s2">"name"</span>: <span class="s2">"Trailer lover"</span>,
+
+      // Badge reference_id
+      <span class="s2">"reference_id"</span>: <span class="s2">"trailer-lover"</span>,
+
+      // Badge localizations <span class="o">(</span><span class="k">if </span>enabled from the dashboard<span class="o">)</span>
+      <span class="s2">"localization"</span>: <span class="o">{</span>
+        <span class="s2">"fr_FR"</span>: <span class="o">{</span>
+          <span class="s2">"message"</span>: <span class="s2">"Vous aimez les vidéos et les apps mais aimez-vous les mots ?"</span>,
+          <span class="s2">"hint"</span>: <span class="s2">"Regardez une video depuis la boutique."</span>,
+          <span class="s2">"name"</span>: <span class="s2">"Trailer lover"</span>,
+          <span class="s2">"is_default"</span>: <span class="nb">false</span>
+        <span class="o">}</span>,
+        <span class="s2">"en_US"</span>: <span class="o">{</span>
+          <span class="s2">"is_default"</span>: <span class="nb">true</span>
+        <span class="o">}</span>
+      <span class="o">}</span>,
+
+      // Badge social bindings <span class="o">(</span>OpenGraph<span class="o">)</span> <span class="k">if </span>enabled from the dashboard
+      <span class="s2">"social"</span>: <span class="o">{</span>
+        <span class="s2">"facebook"</span>: <span class="o">{</span>
+          <span class="s2">"ogType"</span>: <span class="s2">"pics-n-words:badge"</span>,
+          // Badge id in the facebook opengraph
+          <span class="s2">"ogId"</span>: <span class="s2">"1413403995564661"</span>
+        <span class="o">}</span>
+      <span class="o">}</span>,
+
+      // Is the badge active?
+      <span class="s2">"active"</span>: <span class="nb">true</span>,
+
+      // Is the badge unique? <span class="o">(</span>can be unlocked once per player<span class="o">)</span>
+      <span class="s2">"unique"</span>: <span class="nb">true</span>,
+
+      // The limit of unlocks that can be <span class="k">done</span> <span class="o">(</span>e.g limit of 10 means that maximum 10 players can unlock the badge<span class="o">)</span>
+      <span class="s2">"limit"</span>: 0
+    <span class="o">}</span>,
+    // ...
+  <span class="o">]</span>
+<span class="o">}</span>
+</pre></div>
+
+<h3>
+<a name="creating-a-badge" class="anchor" href="#creating-a-badge"><span class="octicon octicon-link"></span></a>Creating a Badge</h3>
+
+<p><strong>Note:</strong> You can manage your badges directly <a href="http://dashboard.behave.io/#/badges">from the dashboard</a>. In case your app needs to dynamically create badges you can use the API to do so.</p>
+
+<h3>
+<a name="deleting-a-badge" class="anchor" href="#deleting-a-badge"><span class="octicon octicon-link"></span></a>Deleting a Badge</h3>
+
+<ul>
+<li>
+<strong>Method:</strong> DELETE</li>
+<li>
+<strong>Endpoint:</strong> /badges/:badge_reference_id</li>
+</ul><pre><code>$ curl http://api.behave.io/badges/my-badge
+-X DELETE
+-H "X-Behave-Api-Token:YOUR_API_TOKEN",
+-H "Content-Type:application/json"
+</code></pre>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
