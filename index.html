@@ -41,7 +41,8 @@
 
 <ul>
 <li><a href="#identify">Identify</a></li>
-<li>Add Identity (Social)</li>
+<li><a href="#add-identity">Add Identity (Social)</a></li>
+<li><a href="#remove-identity">Remove Identity (Social)</a></li>
 </ul>
 </li>
 <li>
@@ -150,7 +151,62 @@ If you identify a user multiple times with the same id, the existing player will
 <td align="right">The custom traits you have given to the player</td>
 </tr>
 </tbody>
-</table><h2>
+</table><h3>
+<a name="add-identity" class="anchor" href="#add-identity"><span class="octicon octicon-link"></span></a>Add Identity</h3>
+
+<ul>
+<li>
+<strong>Method:</strong> POST</li>
+<li>
+<strong>Endpoint:</strong> /players/:player_id/track</li>
+<li><strong>Parameters:</strong></li>
+</ul><table>
+<thead><tr>
+<th>Name</th>
+<th align="center">Type</th>
+<th align="right">Value</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>provider</td>
+<td align="center">String</td>
+<td align="right">
+<strong>Required</strong>. Provider key ("facebook", "twitter", "yammer")</td>
+</tr>
+<tr>
+<td>reference_id</td>
+<td align="center">String</td>
+<td align="right">
+<strong>Required</strong>. The id of the player in the provider's servers</td>
+</tr>
+</tbody>
+</table><p>You can easily bind social providers (facebook, twitter, yammer, and more soon enought) to your players using the identities API.</p>
+
+<p>For example if my users logs in my app using facebook, I can do the following (make sure you identify the player before)</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/identities
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
+-H <span class="s2">"Content-Type:application/json"</span>
+-d <span class="s1">'{</span>
+<span class="s1"> "provider": "facebook",</span>
+<span class="s1"> "reference_id": "user_id_in_facebook_servers"</span>
+<span class="s1">}'</span>
+</pre></div>
+
+<h3>
+<a name="remove-identity" class="anchor" href="#remove-identity"><span class="octicon octicon-link"></span></a>Remove Identity</h3>
+
+<ul>
+<li>
+<strong>Method:</strong> DELETE</li>
+<li>
+<strong>Endpoint:</strong> /players/:player_id/identities/:provider</li>
+</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/identities/facebook
+-X DELETE
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
+</pre></div>
+
+<h2>
 <a name="behaviours" class="anchor" href="#behaviours"><span class="octicon octicon-link"></span></a>Behaviours</h2>
 
 <p>You need to track your players behaviours if you want to reward them for doing so! Tracking can be either <strong>simple</strong> or <strong>contextual</strong>. You can specify ANY key value pairs to describe the context to which the behaviour was taken (See examples below):</p>
@@ -183,7 +239,7 @@ If you identify a user multiple times with the same id, the existing player will
 <a name="simple-tracking" class="anchor" href="#simple-tracking"><span class="octicon octicon-link"></span></a>Simple tracking</h3>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/track
--H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 -H <span class="s2">"Content-Type:application/json"</span>
 -d <span class="s1">'{</span>
 <span class="s1"> "verb": "login"</span>
@@ -194,7 +250,7 @@ If you identify a user multiple times with the same id, the existing player will
 <a name="contextual-tracking" class="anchor" href="#contextual-tracking"><span class="octicon octicon-link"></span></a>Contextual tracking</h3>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/track
--H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 -H <span class="s2">"Content-Type:application/json"</span>
 -d <span class="s1">'{</span>
 <span class="s1"> "verb": "check-in",</span>
@@ -238,7 +294,7 @@ If you identify a user multiple times with the same id, the existing player will
 </table><p>Example:</p>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/track
--H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 -H <span class="s2">"Content-Type:application/json"</span>
 -F <span class="s1">'{</span>
 <span class="s1"> "verb": "check-in",</span>
@@ -370,7 +426,7 @@ If you identify a user multiple times with the same id, the existing player will
 </table><p>Example:</p>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards/my-leaderboard/results
--H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 -H <span class="s2">"Content-Type:application/json"</span>
 -F <span class="s1">'{</span>
 <span class="s1">  "max": 2,</span>
@@ -463,7 +519,7 @@ If you identify a user multiple times with the same id, the existing player will
 </tr>
 </tbody>
 </table><div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards/player-results
--H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 -H <span class="s2">"Content-Type:application/json"</span>
 -F <span class="s1">'{</span>
 <span class="s1">  "player_id" : "43",</span>
@@ -545,14 +601,14 @@ If you identify a user multiple times with the same id, the existing player will
 </table><p>Example:</p>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards
--H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 -H <span class="s2">"Content-Type:application/json"</span>
 -F <span class="s1">'{</span>
 <span class="s1">  "name"         : "Influencers Leaderboard",</span>
 <span class="s1">  "type"         : 0,      # 0 = score leaderboard (!= behavioural leaderboard)</span>
 <span class="s1">  "scoreType"    : 0       # 0 = absolute score (we keep the maximum score)</span>
 <span class="s1">  "timeFrame"    : 2,      # Weekly leaderboard</span>
-<span class="s1">  "active"       : "true"  # Defaults,</span>
+<span class="s1">  "active"       : "true"  # Defaults</span>
 <span class="s1">  "metadata"     : [</span>
 <span class="s1">    "foo" : "bar",</span>
 <span class="s1">    "custom_data" : "goes here"</span>
@@ -569,14 +625,14 @@ Rewards are Badges. Each reward defines the position in the leaderboard to who t
 <p>You can define contest leaderboard this way.</p>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards
--H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 -H <span class="s2">"Content-Type:application/json"</span>
 -F <span class="s1">'{</span>
 <span class="s1">  "name"         : "Influencers Leaderboard",</span>
 <span class="s1">  "type"         : 0,      # 0 = score leaderboard (!= behavioural leaderboard)</span>
 <span class="s1">  "scoreType"    : 0       # 0 = absolute score (we keep the maximum score)</span>
 <span class="s1">  "timeFrame"    : 2,      # Weekly leaderboard</span>
-<span class="s1">  "active"       : "true"  # Defaults,</span>
+<span class="s1">  "active"       : "true"  # Defaults</span>
 <span class="s1">  "metadata"     : [</span>
 <span class="s1">    "foo" : "bar",</span>
 <span class="s1">    "custom_data" : "goes here"</span>
@@ -596,7 +652,7 @@ Rewards are Badges. Each reward defines the position in the leaderboard to who t
 <strong>Endpoint:</strong> /leaderboards/:leaderboard_reference_id</li>
 </ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards/my-leaderboard
 -X DELETE
--H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 -H <span class="s2">"Content-Type:application/json"</span>
 </pre></div>
 
@@ -612,7 +668,7 @@ Rewards are Badges. Each reward defines the position in the leaderboard to who t
 <li>
 <strong>Endpoint:</strong> /players/:player_reference_id/badges</li>
 </ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/badges
--H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 
 <span class="c"># Example Response</span>
 <span class="o">{</span>
@@ -696,7 +752,7 @@ Rewards are Badges. Each reward defines the position in the leaderboard to who t
 <li>
 <strong>Endpoint:</strong> /players/:player_reference_id/badges/todo</li>
 </ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/badges/todo
--H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 
 <span class="c"># Example Response</span>
 <span class="o">{</span>
@@ -774,7 +830,7 @@ Rewards are Badges. Each reward defines the position in the leaderboard to who t
 <strong>Endpoint:</strong> /badges/:badge_reference_id</li>
 </ul><pre><code>$ curl http://api.behave.io/badges/my-badge
 -X DELETE
--H "X-Behave-Api-Token:YOUR_API_TOKEN",
+-H "X-Behave-Api-Token:YOUR_API_TOKEN"
 -H "Content-Type:application/json"
 </code></pre>
       </section>
