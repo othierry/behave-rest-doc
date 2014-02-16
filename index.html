@@ -54,7 +54,8 @@
 <li><a href="#using-the-tracking-response">Using the tracking response</a></li>
 </ul>
 </li>
-<li>Leaderboards
+<li>
+<a href="#leaderboards">Leaderboards</a>
 
 <ul>
 <li><a href="#getting-leaderboard-current-results">Getting leaderboard current results</a></li>
@@ -64,7 +65,8 @@
 <li><a href="#deleting-a-leaderboard">Deleting a Leaderboard</a></li>
 </ul>
 </li>
-<li>Badges
+<li>
+<a href="#badges">Badges</a>
 
 <ul>
 <li><a href="#getting-unlocked-badges-of-a-player">Getting unlocked badges of a player</a></li>
@@ -86,7 +88,7 @@ If you identify a user multiple times with the same id, the existing player will
 <li>
 <strong>Method:</strong> POST</li>
 <li>
-<strong>Endpoint:</strong> /players/:unique_id</li>
+<strong>Endpoint:</strong> /players/:unique_id/identify</li>
 <li><strong>Parameters:</strong></li>
 </ul><table>
 <thead><tr>
@@ -108,7 +110,7 @@ If you identify a user multiple times with the same id, the existing player will
 </tbody>
 </table><p>Example:</p>
 
-<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/identify
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
 -H <span class="s2">"Content-Type:application/json"</span>
 -d <span class="s1">'{</span>
@@ -158,7 +160,7 @@ If you identify a user multiple times with the same id, the existing player will
 <li>
 <strong>Method:</strong> POST</li>
 <li>
-<strong>Endpoint:</strong> /players/:player_id/track</li>
+<strong>Endpoint:</strong> /players/:player_id/identities</li>
 <li><strong>Parameters:</strong></li>
 </ul><table>
 <thead><tr>
