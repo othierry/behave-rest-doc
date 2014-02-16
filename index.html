@@ -193,6 +193,12 @@ If you identify a user multiple times with the same id, the existing player will
 <span class="s1">}'</span>
 </pre></div>
 
+<p>It will bind the facebook user id to the player. If you haven't specified a picture or a name in your players traits, we will grab the ones from facebook <strong>without asking any additional permissions</strong>.</p>
+
+<p>NOTE: If your app has asked for provider friends list read permission, you will be able to make leaderboards "between friends" without any additional code.</p>
+
+<p>NOTE2: If your app has asked for provider write permissions (like posting on opengraph on behalf of the user) you will be able to automatically share badge unlocks and more trough the opengraph without any additional code when you want it.</p>
+
 <h3>
 <a name="remove-identity" class="anchor" href="#remove-identity"><span class="octicon octicon-link"></span></a>Remove Identity</h3>
 
