@@ -618,73 +618,73 @@ Rewards are Badges. Each reward defines the position in the leaderboard to who t
 <span class="o">{</span>
   <span class="s2">"data"</span>: <span class="o">[</span>
     <span class="o">{</span>
-      // Reward id
+      <span class="c"># Reward id</span>
       <span class="s2">"_id"</span>: <span class="s2">"530007cf0af9fbcf2d58e779"</span>,
 
-      // Reward owner <span class="o">(</span>the player<span class="o">)</span>
+      <span class="c"># Reward owner (the player)</span>
       <span class="s2">"player"</span>: <span class="s2">"530006e4f27bfdb92dc3eac1"</span>,
 
-      // Last <span class="nb">time </span>the badge was unlocked <span class="o">(</span>unix timestamp<span class="o">)</span>
+      <span class="c"># Last time the badge was unlocked (unix timestamp)</span>
       <span class="s2">"lastUnlockedAt"</span>: 1392510927,
 
-      // The number of <span class="nb">times </span>this badges has been unlocked by this player
+      <span class="c"># The number of times this badges has been unlocked by this player</span>
       <span class="s2">"count"</span>: 1
 
-      // The reward<span class="s1">'s badge </span>
-<span class="s1">      "badge": {</span>
-<span class="s1">        // Badge id</span>
-<span class="s1">        "_id": "52b83490739f878842000014",</span>
+      <span class="c"># The reward's badge </span>
+      <span class="s2">"badge"</span>: <span class="o">{</span>
+        <span class="c"># Badge id</span>
+        <span class="s2">"_id"</span>: <span class="s2">"52b83490739f878842000014"</span>,
 
-<span class="s1">        // Is the badge active?</span>
-<span class="s1">        "active": true,</span>
+        <span class="c"># Is the badge active?</span>
+        <span class="s2">"active"</span>: <span class="nb">true</span>,
 
-<span class="s1">        // Current app</span>
-<span class="s1">        "app_id": "52b0f1d32e2ce4e91100000c",</span>
+        <span class="c"># Current app</span>
+        <span class="s2">"app_id"</span>: <span class="s2">"52b0f1d32e2ce4e91100000c"</span>,
 
-<span class="s1">        // Badge Hint</span>
-<span class="s1">        "hint": "Trouvez 1 mot en moins de 7 secondes.",</span>
+        <span class="c"># Badge Hint</span>
+        <span class="s2">"hint"</span>: <span class="s2">"Trouvez 1 mot en moins de 7 secondes."</span>,
 
-<span class="s1">        // Badge Icon</span>
-<span class="s1">        "icon": "https://s3-eu-west-1.amazonaws.com/behave-production/uploads/9d05563b89934f615951bc6425f029e6.png",</span>
+        <span class="c"># Badge Icon</span>
+        <span class="s2">"icon"</span>: <span class="s2">"https://s3-eu-west-1.amazonaws.com/behave-production/uploads/9d05563b89934f615951bc6425f029e6.png"</span>,
 
-<span class="s1">         // The limit of unlocks that can be done (e.g limit of 10 means that maximum 10 players can unlock the badge)        </span>
-<span class="s1">        "limit": 0,</span>
+         <span class="c"># The limit of unlocks that can be done (e.g limit of 10 means that maximum 10 players can unlock the badge)        </span>
+        <span class="s2">"limit"</span>: 0,
 
-<span class="s1">        "localization": {</span>
-<span class="s1">          "fr_FR": {</span>
-<span class="s1">            "message": "Moins de 7 secondes pour 1 mot est un challenge ! Bravo.",</span>
-<span class="s1">            "hint": "Trouvez 1 mot en moins de 7 secondes.",</span>
-<span class="s1">            "name": "Flash Gordon",</span>
-<span class="s1">            "is_default": false</span>
-<span class="s1">          },</span>
-<span class="s1">          "en_US": {</span>
-<span class="s1">            "is_default": true</span>
-<span class="s1">          }</span>
-<span class="s1">        },</span>
+        <span class="s2">"localization"</span>: <span class="o">{</span>
+          <span class="s2">"fr_FR"</span>: <span class="o">{</span>
+            <span class="s2">"message"</span>: <span class="s2">"Moins de 7 secondes pour 1 mot est un challenge ! Bravo."</span>,
+            <span class="s2">"hint"</span>: <span class="s2">"Trouvez 1 mot en moins de 7 secondes."</span>,
+            <span class="s2">"name"</span>: <span class="s2">"Flash Gordon"</span>,
+            <span class="s2">"is_default"</span>: <span class="nb">false</span>
+          <span class="o">}</span>,
+          <span class="s2">"en_US"</span>: <span class="o">{</span>
+            <span class="s2">"is_default"</span>: <span class="nb">true</span>
+          <span class="o">}</span>
+        <span class="o">}</span>,
 
-<span class="s1">        // Badge message (when unlocked)</span>
-<span class="s1">        "message": "Vous l'</span>avez fait ! Moins de 7 secondes pour 1 mot est un challenge ! Bravo.<span class="s2">",</span>
+        <span class="c"># Badge message (when unlocked)</span>
+        <span class="s2">"message"</span>: <span class="s2">"Vous l'avez fait ! Moins de 7 secondes pour 1 mot est un challenge ! Bravo."</span>,
 
-<span class="s2">        // Badge name</span>
-<span class="s2">        "</span>name<span class="s2">": "</span>Flash Gordon<span class="s2">",</span>
+        <span class="c"># Badge name</span>
+        <span class="s2">"name"</span>: <span class="s2">"Flash Gordon"</span>,
 
-<span class="s2">        // Badge reference_id</span>
-<span class="s2">        "</span>reference_id<span class="s2">": "</span>flash-gordon<span class="s2">",</span>
+        <span class="c"># Badge reference_id</span>
+        <span class="s2">"reference_id"</span>: <span class="s2">"flash-gordon"</span>,
 
-<span class="s2">        // Badge social bindings (OpenGraph) if enabled from the dashboard</span>
-<span class="s2">        "</span>social<span class="s2">": {</span>
-<span class="s2">          "</span>facebook<span class="s2">": {</span>
-<span class="s2">            "</span>ogType<span class="s2">": "</span>pics-n-words:badge<span class="s2">",</span>
-<span class="s2">            // Badge id in the facebook opengraph</span>
-<span class="s2">            "</span>ogId<span class="s2">": "</span>775995212414594<span class="s2">"</span>
-<span class="s2">          }</span>
-<span class="s2">        },</span>
+        <span class="c"># Badge social bindings (OpenGraph) if enabled from the dashboard</span>
+        <span class="s2">"social"</span>: <span class="o">{</span>
+          <span class="s2">"facebook"</span>: <span class="o">{</span>
+            <span class="s2">"ogType"</span>: <span class="s2">"pics-n-words:badge"</span>,
+            <span class="c"># Badge id in the facebook opengraph</span>
+            <span class="s2">"ogId"</span>: <span class="s2">"775995212414594"</span>
+          <span class="o">}</span>
+        <span class="o">}</span>,
 
-<span class="s2">        // Is the badge unique? (can be unlocked once per player)</span>
-<span class="s2">        "</span>unique<span class="err">"</span>: <span class="nb">true</span>
+        <span class="c"># Is the badge unique? (can be unlocked once per player)</span>
+        <span class="s2">"unique"</span>: <span class="nb">true</span>
       <span class="o">}</span>
     <span class="o">}</span>,
-    // ...
+    <span class="c"># ...</span>
 </pre></div>
 
 <h3>
@@ -702,26 +702,28 @@ Rewards are Badges. Each reward defines the position in the leaderboard to who t
 <span class="o">{</span>
   <span class="s2">"data"</span>: <span class="o">[</span>
     <span class="o">{</span>
+      <span class="c"># Badge id</span>
       <span class="s2">"_id"</span>: <span class="s2">"52b838c8739f87884200001c"</span>,
 
+      <span class="c"># Current app id</span>
       <span class="s2">"app_id"</span>: <span class="s2">"52b0f1d32e2ce4e91100000c"</span>,
 
-      // Badge Hint
+      <span class="c"># Badge Hint</span>
       <span class="s2">"hint"</span>: <span class="s2">"Watch a video trailer in the shop"</span>,
 
-      // Badge Icon
+      <span class="c"># Badge Icon</span>
       <span class="s2">"icon"</span>: <span class="s2">"https://s3-eu-west-1.amazonaws.com/behave-production/uploads/6827c5d570dece337c123fcf9447abf7.png"</span>,
 
-      // Badge message <span class="o">(</span>when unlocked<span class="o">)</span>
+      <span class="c"># Badge message (when unlocked)</span>
       <span class="s2">"message"</span>: <span class="s2">"Yeah! You like trailers and mobile games but do you like words?!"</span>,
 
-      // Badge name
+      <span class="c"># Badge name</span>
       <span class="s2">"name"</span>: <span class="s2">"Trailer lover"</span>,
 
-      // Badge reference_id
+      <span class="c"># Badge reference_id</span>
       <span class="s2">"reference_id"</span>: <span class="s2">"trailer-lover"</span>,
 
-      // Badge localizations <span class="o">(</span><span class="k">if </span>enabled from the dashboard<span class="o">)</span>
+      <span class="c"># Badge localizations (if enabled from the dashboard)</span>
       <span class="s2">"localization"</span>: <span class="o">{</span>
         <span class="s2">"fr_FR"</span>: <span class="o">{</span>
           <span class="s2">"message"</span>: <span class="s2">"Vous aimez les vidéos et les apps mais aimez-vous les mots ?"</span>,
@@ -734,25 +736,25 @@ Rewards are Badges. Each reward defines the position in the leaderboard to who t
         <span class="o">}</span>
       <span class="o">}</span>,
 
-      // Badge social bindings <span class="o">(</span>OpenGraph<span class="o">)</span> <span class="k">if </span>enabled from the dashboard
+      <span class="c"># Badge social bindings (OpenGraph) if enabled from the dashboard</span>
       <span class="s2">"social"</span>: <span class="o">{</span>
         <span class="s2">"facebook"</span>: <span class="o">{</span>
           <span class="s2">"ogType"</span>: <span class="s2">"pics-n-words:badge"</span>,
-          // Badge id in the facebook opengraph
+          <span class="c"># Badge id in the facebook opengraph</span>
           <span class="s2">"ogId"</span>: <span class="s2">"1413403995564661"</span>
         <span class="o">}</span>
       <span class="o">}</span>,
 
-      // Is the badge active?
+      <span class="c"># Is the badge active?</span>
       <span class="s2">"active"</span>: <span class="nb">true</span>,
 
-      // Is the badge unique? <span class="o">(</span>can be unlocked once per player<span class="o">)</span>
+      <span class="c"># Is the badge unique? (can be unlocked once per player)</span>
       <span class="s2">"unique"</span>: <span class="nb">true</span>,
 
-      // The limit of unlocks that can be <span class="k">done</span> <span class="o">(</span>e.g limit of 10 means that maximum 10 players can unlock the badge<span class="o">)</span>
+      <span class="c"># The limit of unlocks that can be done (e.g limit of 10 means that maximum 10 players can unlock the badge)</span>
       <span class="s2">"limit"</span>: 0
     <span class="o">}</span>,
-    // ...
+    <span class="c"># ...</span>
   <span class="o">]</span>
 <span class="o">}</span>
 </pre></div>
