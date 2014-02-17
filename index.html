@@ -494,7 +494,7 @@ If you identify a user multiple times with the same id, the existing player will
 <h3>
 <a name="getting-leaderboard-results-for-a-specific-player" class="anchor" href="#getting-leaderboard-results-for-a-specific-player"><span class="octicon octicon-link"></span></a>Getting leaderboard results for a specific player</h3>
 
-<p>You can also fetch the result for a particular player, on a particular leaderboard. (<em>e.g What is the position of my user 42 on leaderboard test-lb</em>)</p>
+<p>You can also fetch results for a particular player. Let's say you want to fetch the results of a player on one, many or even ALL the leaderboards <strong>the player is in</strong> then you can use this service to do so.</p>
 
 <ul>
 <li>
@@ -836,11 +836,11 @@ Rewards are Badges. Each reward defines the position in the leaderboard to who t
 <strong>Method:</strong> DELETE</li>
 <li>
 <strong>Endpoint:</strong> /badges/:badge_reference_id</li>
-</ul><pre><code>$ curl http://api.behave.io/badges/my-badge
+</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/badges/my-badge
 -X DELETE
--H "X-Behave-Api-Token:YOUR_API_TOKEN"
--H "Content-Type:application/json"
-</code></pre>
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
+-H <span class="s2">"Content-Type:application/json"</span>
+</pre></div>
       </section>
       <footer>
         <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
