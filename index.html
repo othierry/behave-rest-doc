@@ -41,6 +41,7 @@
 
 <ul>
 <li><a href="#identify">Identify</a></li>
+<li><a href="#retrieve-a-player">Retrieve a Player</a></li>
 <li><a href="#add-identity">Add Identity (Social)</a></li>
 <li><a href="#remove-identity">Remove Identity (Social)</a></li>
 </ul>
@@ -71,10 +72,16 @@
 <ul>
 <li><a href="#getting-unlocked-badges-of-a-player">Getting unlocked badges of a player</a></li>
 <li><a href="#getting-locked-badges-of-a-player">Getting locked badges of a player</a></li>
-<li><a href="#creating-a-badge">Creating a Badge</a></li>
-<li><a href="#deleting-a-badge">Deleting a Badge</a></li>
 </ul>
 </li>
+<li>
+<a href="#levels">Levels</a>
+
+<ul>
+<li><a href="#creating-a-level">Creating a Level</a></li>
+</ul>
+</li>
+<li>[Creating badges, levels, leaderboards using the API]</li>
 </ol><h2>
 <a name="players" class="anchor" href="#players"><span class="octicon octicon-link"></span></a>Players</h2>
 
@@ -90,7 +97,7 @@ If you identify a user multiple times with the same id, the existing player will
 <li>
 <strong>Method:</strong> POST</li>
 <li>
-<strong>Endpoint:</strong> /players/:unique_id/identify</li>
+<strong>Endpoint:</strong> /players/:reference_id/identify</li>
 <li><strong>Parameters:</strong></li>
 </ul><table>
 <thead><tr>
@@ -135,11 +142,6 @@ If you identify a user multiple times with the same id, the existing player will
 </tr></thead>
 <tbody>
 <tr>
-<td>_id</td>
-<td align="center">String</td>
-<td align="right">The id of the Player</td>
-</tr>
-<tr>
 <td>reference_id</td>
 <td align="center">String</td>
 <td align="right">The custom unique id you have specified to identify this player</td>
@@ -150,13 +152,52 @@ If you identify a user multiple times with the same id, the existing player will
 <td align="right">The number of points of the player (default to 0)</td>
 </tr>
 <tr>
+<td>level</td>
+<td align="center">Object</td>
+<td align="right">The current level of the player</td>
+</tr>
+<tr>
 <td>traits</td>
 <td align="center">Object</td>
 <td align="right">The custom traits you have given to the player</td>
 </tr>
 </tbody>
 </table><h3>
+<a name="retrieve-a-player" class="anchor" href="#retrieve-a-player"><span class="octicon octicon-link"></span></a>Retrieve a player</h3>
+
+<p>Sometimes you want to retrieve a player's profile without having to identify() him. You can retrieve a player by sending a GET request.</p>
+
+<ul>
+<li>
+<strong>Method:</strong> POST</li>
+<li>
+<strong>Endpoint:</strong> /players/:reference_id</li>
+<li><strong>Parameters:</strong></li>
+</ul><p>Example:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
+<span class="o">{</span>
+  <span class="s2">"reference_id"</span>: <span class="s2">"42"</span>,
+  <span class="s2">"points"</span>: 4244,
+  <span class="s2">"level"</span>: <span class="o">{</span>
+    name: <span class="s2">"Newbie"</span>,
+    message: <span class="s2">""</span>,
+    nextLevelPoints: 5000,
+    progress: 84.88
+  <span class="o">}</span>
+  <span class="s2">"traits"</span>: <span class="o">{</span>
+    <span class="s2">"email"</span>: <span class="s2">"olivier@behave.io"</span>,
+    <span class="s2">"name"</span>: <span class="s2">"Olivier Thierry"</span>,
+    <span class="s2">"picture"</span>: <span class="s2">"http://url_to_picture"</span>,
+    <span class="s2">"foo"</span>: <span class="s2">"bar"</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<h3>
 <a name="add-identity" class="anchor" href="#add-identity"><span class="octicon octicon-link"></span></a>Add Identity</h3>
+
+<p>You can easily bind social providers (facebook, twitter, yammer, and more soon enought) to your players using the identities API.</p>
 
 <ul>
 <li>
@@ -184,9 +225,7 @@ If you identify a user multiple times with the same id, the existing player will
 <strong>Required</strong>. The id of the player in the provider's servers</td>
 </tr>
 </tbody>
-</table><p>You can easily bind social providers (facebook, twitter, yammer, and more soon enought) to your players using the identities API.</p>
-
-<p>For example if my users logs in my app using facebook, I can do the following (make sure you identify the player before)</p>
+</table><p>For example if my users logs in my app using facebook, I can do the following (make sure you identify the player before)</p>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/identities
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
@@ -199,9 +238,9 @@ If you identify a user multiple times with the same id, the existing player will
 
 <p>It will bind the facebook user id to the player. If you haven't specified a picture or a name in your players traits, we will grab the ones from facebook <strong>without asking any additional permissions</strong>.</p>
 
-<p>NOTE: If your app has asked for provider friends list read permission, you will be able to make leaderboards "between friends" without any additional code.</p>
+<p>NOTE: If your app has asked for friends list read permission on Facebook, you will be able to make leaderboards "between friends" without any additional code.</p>
 
-<p>NOTE2: If your app has asked for provider write permissions (like posting on opengraph on behalf of the user) you will be able to automatically share badge unlocks and more trough the opengraph without any additional code when you want it.</p>
+<p>NOTE2: If your app has asked for write permissions (like posting on opengraph on behalf of the user) you will be able to automatically share badge unlocks and more trough the opengraph without any additional code when you want it.</p>
 
 <h3>
 <a name="remove-identity" class="anchor" href="#remove-identity"><span class="octicon octicon-link"></span></a>Remove Identity</h3>
@@ -296,6 +335,11 @@ If you identify a user multiple times with the same id, the existing player will
 <td align="right">With 2 attributes: <code>earned</code> and <code>balance</code>. <code>earned</code> is the number of points the user earned by taking the action or 0 if no points earned, <code>balance</code> is the updated balance of the player points</td>
 </tr>
 <tr>
+<td>level</td>
+<td align="center">Object</td>
+<td align="right">The current level of the player, containing the updated progress to the next level</td>
+</tr>
+<tr>
 <td>leaderboards</td>
 <td align="center">Array[Object]</td>
 <td align="right">Leaderboard updates (if any,  empty otherwise). See bellow for detailed structure</td>
@@ -311,7 +355,7 @@ If you identify a user multiple times with the same id, the existing player will
 <span class="s1"> "context": {</span>
 <span class="s1">   "placeId" : "42"</span>
 <span class="s1">   "placeName" : "Deloitte",</span>
-<span class="s1">   "with_mates" : []</span>
+<span class="s1">   "with_mates" : [1, 33, 42, 54]</span>
 <span class="s1"> }</span>
 <span class="s1">}'</span>
 
@@ -360,6 +404,19 @@ If you identify a user multiple times with the same id, the existing player will
          <span class="c"># Player's updated score</span>
          <span class="s2">"score"</span> : 435
       <span class="o">}</span>,
+
+      level: <span class="o">{</span>
+        // Current level name
+        name: <span class="s1">'Newbie'</span>,
+        // Current level description message
+        message: <span class="s1">'You are ...'</span>,
+        // Url to level icon
+        icon: <span class="s1">'https://url-to-icon'</span>,
+        // Number of total points required to reach the next level
+        nextLevelPoints: <span class="s1">'100'</span>,
+        // Progress percentile to the next level
+        progress: 88.00
+      <span class="o">}</span>
       <span class="c"># ...</span>
     <span class="o">]</span>
   <span class="o">}</span>
@@ -369,6 +426,8 @@ If you identify a user multiple times with the same id, the existing player will
 <ul>
 <li>
 <strong>data.points</strong> contains 2 attributes: <code>earned</code> and <code>balance</code>. <code>earned</code> is the points that the player has earned by performing the behaviour and <code>earned</code> is the updated points balance.</li>
+<li>
+<strong>data.level</strong>  contains the current level information of the player, name, progress etc. If levelling system is disabled it will be <code>null</code> instead.</li>
 <li>
 <strong>data.badges</strong> is an array that contains the Badges that the user has just unlocked.</li>
 <li>
@@ -829,24 +888,10 @@ Rewards are Badges. Each reward defines the position in the leaderboard to who t
 <span class="o">}</span>
 </pre></div>
 
-<h3>
-<a name="creating-a-badge" class="anchor" href="#creating-a-badge"><span class="octicon octicon-link"></span></a>Creating a Badge</h3>
+<h2>
+<a name="creating-badges-levels-leaderboards-directly-using-the-api" class="anchor" href="#creating-badges-levels-leaderboards-directly-using-the-api"><span class="octicon octicon-link"></span></a>Creating badges, levels, leaderboards directly using the API</h2>
 
-<p><strong>Note:</strong> You can manage your badges directly <a href="http://dashboard.behave.io/#/badges">from the dashboard</a>. In case your app needs to dynamically create badges you can use the API to do so.</p>
-
-<h3>
-<a name="deleting-a-badge" class="anchor" href="#deleting-a-badge"><span class="octicon octicon-link"></span></a>Deleting a Badge</h3>
-
-<ul>
-<li>
-<strong>Method:</strong> DELETE</li>
-<li>
-<strong>Endpoint:</strong> /badges/:badge_reference_id</li>
-</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/badges/my-badge
--X DELETE
--H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
--H <span class="s2">"Content-Type:application/json"</span>
-</pre></div>
+<p>If you need to dynamically manage your badges, levels, leaderboards and more without directly using the Dashboard interface, please <a href="mailto:founders@behave.io" target="_blank">let us know!</a> <strong>We will grant you access to the API.</strong></p>
       </section>
       <footer>
         <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
