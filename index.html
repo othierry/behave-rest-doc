@@ -177,19 +177,21 @@ If you identify a user multiple times with the same id, the existing player will
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 <span class="o">{</span>
-  <span class="s2">"reference_id"</span>: <span class="s2">"42"</span>,
-  <span class="s2">"points"</span>: 4244,
-  <span class="s2">"level"</span>: <span class="o">{</span>
-    name: <span class="s2">"Newbie"</span>,
-    message: <span class="s2">""</span>,
-    nextLevelPoints: 5000,
-    progress: 84.88
-  <span class="o">}</span>
-  <span class="s2">"traits"</span>: <span class="o">{</span>
-    <span class="s2">"email"</span>: <span class="s2">"olivier@behave.io"</span>,
-    <span class="s2">"name"</span>: <span class="s2">"Olivier Thierry"</span>,
-    <span class="s2">"picture"</span>: <span class="s2">"http://url_to_picture"</span>,
-    <span class="s2">"foo"</span>: <span class="s2">"bar"</span>
+  <span class="s2">"data"</span>: <span class="o">{</span>
+    <span class="s2">"reference_id"</span>: <span class="s2">"42"</span>,
+    <span class="s2">"points"</span>: 4244,
+    <span class="s2">"level"</span>: <span class="o">{</span>
+      name: <span class="s2">"Newbie"</span>,
+      message: <span class="s2">""</span>,
+      nextLevelPoints: 5000,
+      progress: 84.88
+    <span class="o">}</span>
+    <span class="s2">"traits"</span>: <span class="o">{</span>
+      <span class="s2">"email"</span>: <span class="s2">"olivier@behave.io"</span>,
+      <span class="s2">"name"</span>: <span class="s2">"Olivier Thierry"</span>,
+      <span class="s2">"picture"</span>: <span class="s2">"http://url_to_picture"</span>,
+      <span class="s2">"foo"</span>: <span class="s2">"bar"</span>
+    <span class="o">}</span>  
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
