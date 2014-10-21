@@ -387,7 +387,7 @@ If you identify a user multiple times with the same id, the existing player will
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/track
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 -H <span class="s2">"Content-Type:application/json"</span>
--F <span class="s1">'{</span>
+-d <span class="s1">'{</span>
 <span class="s1"> "verb": "check-in",</span>
 <span class="s1"> "context": {</span>
 <span class="s1">   "placeId" : "42"</span>
@@ -542,7 +542,7 @@ If you identify a user multiple times with the same id, the existing player will
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards/my-leaderboard/results
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 -H <span class="s2">"Content-Type:application/json"</span>
--F <span class="s1">'{</span>
+-d <span class="s1">'{</span>
 <span class="s1">  "max": 2,</span>
 <span class="s1">  "player_id": "48"</span>
 <span class="s1">}'</span>
@@ -641,7 +641,7 @@ If you identify a user multiple times with the same id, the existing player will
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards/player-results
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 -H <span class="s2">"Content-Type:application/json"</span>
--F <span class="s1">'{</span>
+-d <span class="s1">'{</span>
 <span class="s1">  "player_id" : "43",</span>
 <span class="s1">  "leaderboard" : ["leaderboard1", "leaderboard2"]</span>
 <span class="s1">}'</span>
@@ -729,7 +729,7 @@ If you identify a user multiple times with the same id, the existing player will
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 -H <span class="s2">"Content-Type:application/json"</span>
--F <span class="s1">'{</span>
+-d <span class="s1">'{</span>
 <span class="s1">  "name"         : "Influencers Leaderboard",</span>
 <span class="s1">  "type"         : 0,      # 0 = score leaderboard (!= behavioural leaderboard)</span>
 <span class="s1">  "scoreType"    : 0       # 0 = absolute score (we keep the maximum score)</span>
@@ -753,7 +753,7 @@ Rewards are Badges. Each reward defines the position in the leaderboard to who t
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 -H <span class="s2">"Content-Type:application/json"</span>
--F <span class="s1">'{</span>
+-d <span class="s1">'{</span>
 <span class="s1">  "name"         : "Influencers Leaderboard",</span>
 <span class="s1">  "type"         : 0,      # 0 = score leaderboard (!= behavioural leaderboard)</span>
 <span class="s1">  "scoreType"    : 0       # 0 = absolute score (we keep the maximum score)</span>
@@ -880,7 +880,7 @@ Rewards are Badges. Each reward defines the position in the leaderboard to who t
 -X POST
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 -H <span class="s2">"Content-Type:application/json"</span>
--f <span class="s1">'{</span>
+-d <span class="s1">'{</span>
 <span class="s1">  "name": "My Awesome Badge",</span>
 <span class="s1">  "reference_id": "my-awesome-badge",</span>
 <span class="s1">  "group": "limited-edition",</span>
@@ -984,7 +984,7 @@ Rewards are Badges. Each reward defines the position in the leaderboard to who t
 -X PUT
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 -H <span class="s2">"Content-Type:application/json"</span>
--f <span class="s1">'{</span>
+-d <span class="s1">'{</span>
 <span class="s1">  "active": false</span>
 <span class="s1">}'</span>
 </pre></div>
