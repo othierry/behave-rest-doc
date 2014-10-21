@@ -72,6 +72,9 @@
 <ul>
 <li><a href="#getting-unlocked-badges-of-a-player">Getting unlocked badges of a player</a></li>
 <li><a href="#getting-locked-badges-of-a-player">Getting locked badges of a player</a></li>
+<li><a href="#creating-a-badge">Creating a Badge</a></li>
+<li><a href="#updating-a-badge">Updating a Badge</a></li>
+<li><a href="#deleting-a-badge">Deleting a Badge</a></li>
 </ul>
 </li>
 <li>
@@ -82,7 +85,9 @@
 </ul>
 </li>
 <li>[Creating badges, levels, leaderboards using the API]</li>
-</ol><h2>
+</ol>
+
+<h2>
 <a name="players" class="anchor" href="#players"><span class="octicon octicon-link"></span></a>Players</h2>
 
 <h3>
@@ -99,12 +104,16 @@ If you identify a user multiple times with the same id, the existing player will
 <li>
 <strong>Endpoint:</strong> /players/:reference_id/identify</li>
 <li><strong>Parameters:</strong></li>
-</ul><table>
-<thead><tr>
+</ul>
+
+<table>
+<thead>
+<tr>
 <th>Name</th>
 <th align="center">Type</th>
 <th align="right">Value</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr>
 <td>traits</td>
@@ -117,7 +126,9 @@ If you identify a user multiple times with the same id, the existing player will
 <td align="right">(optional) A <strong>unix timestamp</strong> that tells when this identification happened. <strong>Make sure you specify a timestamp when importing data</strong>. We will use the server's current time by default.</td>
 </tr>
 </tbody>
-</table><p>Example:</p>
+</table>
+
+<p>Example:</p>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/identify
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>,
@@ -135,11 +146,13 @@ If you identify a user multiple times with the same id, the existing player will
 <p>the returned Player has the following attributes</p>
 
 <table>
-<thead><tr>
+<thead>
+<tr>
 <th>Name</th>
 <th align="center">Type</th>
 <th align="right">Value</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr>
 <td>reference_id</td>
@@ -162,7 +175,9 @@ If you identify a user multiple times with the same id, the existing player will
 <td align="right">The custom traits you have given to the player</td>
 </tr>
 </tbody>
-</table><h3>
+</table>
+
+<h3>
 <a name="retrieve-a-player" class="anchor" href="#retrieve-a-player"><span class="octicon octicon-link"></span></a>Retrieve a player</h3>
 
 <p>Sometimes you want to retrieve a player's profile without having to identify() him. You can retrieve a player by sending a GET request.</p>
@@ -173,7 +188,9 @@ If you identify a user multiple times with the same id, the existing player will
 <li>
 <strong>Endpoint:</strong> /players/:reference_id</li>
 <li><strong>Parameters:</strong></li>
-</ul><p>Example:</p>
+</ul>
+
+<p>Example:</p>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 <span class="o">{</span>
@@ -207,12 +224,16 @@ If you identify a user multiple times with the same id, the existing player will
 <li>
 <strong>Endpoint:</strong> /players/:player_id/identities</li>
 <li><strong>Parameters:</strong></li>
-</ul><table>
-<thead><tr>
+</ul>
+
+<table>
+<thead>
+<tr>
 <th>Name</th>
 <th align="center">Type</th>
 <th align="right">Value</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr>
 <td>provider</td>
@@ -227,7 +248,9 @@ If you identify a user multiple times with the same id, the existing player will
 <strong>Required</strong>. The id of the player in the provider's servers</td>
 </tr>
 </tbody>
-</table><p>For example if my users logs in my app using facebook, I can do the following (make sure you identify the player before)</p>
+</table>
+
+<p>For example if my users logs in my app using facebook, I can do the following (make sure you identify the player before)</p>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/identities
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
@@ -252,7 +275,9 @@ If you identify a user multiple times with the same id, the existing player will
 <strong>Method:</strong> DELETE</li>
 <li>
 <strong>Endpoint:</strong> /players/:player_id/identities/:provider</li>
-</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/identities/facebook
+</ul>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/identities/facebook
 -X DELETE
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 </pre></div>
@@ -268,12 +293,16 @@ If you identify a user multiple times with the same id, the existing player will
 <li>
 <strong>Endpoint:</strong> /players/:player_id/track</li>
 <li><strong>Parameters:</strong></li>
-</ul><table>
-<thead><tr>
+</ul>
+
+<table>
+<thead>
+<tr>
 <th>Name</th>
 <th align="center">Type</th>
 <th align="right">Value</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr>
 <td>verb</td>
@@ -286,7 +315,9 @@ If you identify a user multiple times with the same id, the existing player will
 <td align="right">(optional) You can specify ANY key value pairs to describe the context to which the behaviour was taken. Optionally, A special field <code>timestamp</code> <strong>(unix timestamp)</strong> defines when was this behaviour taken. <strong>Make sure you specify a timestamp when importing data</strong>. We will use the server's current time by default.</td>
 </tr>
 </tbody>
-</table><h3>
+</table>
+
+<h3>
 <a name="simple-tracking" class="anchor" href="#simple-tracking"><span class="octicon octicon-link"></span></a>Simple tracking</h3>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/track
@@ -320,11 +351,13 @@ If you identify a user multiple times with the same id, the existing player will
 <p>The response <strong>always contains 3 attributes</strong>.</p>
 
 <table>
-<thead><tr>
+<thead>
+<tr>
 <th>Name</th>
 <th align="center">Type</th>
 <th align="right">Value</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr>
 <td>badges</td>
@@ -347,7 +380,9 @@ If you identify a user multiple times with the same id, the existing player will
 <td align="right">Leaderboard updates (if any,  empty otherwise). See bellow for detailed structure</td>
 </tr>
 </tbody>
-</table><p>Example:</p>
+</table>
+
+<p>Example:</p>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/track
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
@@ -434,7 +469,9 @@ If you identify a user multiple times with the same id, the existing player will
 <strong>data.badges</strong> is an array that contains the Badges that the user has just unlocked.</li>
 <li>
 <strong>data.leaderboards</strong> is an array that contains leaderboard updates if any. An leaderboard update contains info about the updated score, the previous position (before the tracking) and the post position (after the tracking).</li>
-</ul><h2>
+</ul>
+
+<h2>
 <a name="leaderboards" class="anchor" href="#leaderboards"><span class="octicon octicon-link"></span></a>Leaderboards</h2>
 
 <p><strong>Note:</strong> If you want to test you leaderboard results, you can directly use <a href="http://dashboard.behave.io/#/simulator">the built-in simulator</a> to test API calls.</p>
@@ -450,12 +487,16 @@ If you identify a user multiple times with the same id, the existing player will
 <li>
 <strong>Endpoint:</strong> /leaderboards/:leaderboard_reference_id/results</li>
 <li><strong>Parameters:</strong></li>
-</ul><table>
-<thead><tr>
+</ul>
+
+<table>
+<thead>
+<tr>
 <th>Name</th>
 <th align="center">Type</th>
 <th align="right">Value</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr>
 <td>offset</td>
@@ -494,7 +535,9 @@ If you identify a user multiple times with the same id, the existing player will
 </td>
 </tr>
 </tbody>
-</table><p>Example:</p>
+</table>
+
+<p>Example:</p>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards/my-leaderboard/results
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
@@ -566,12 +609,16 @@ If you identify a user multiple times with the same id, the existing player will
 <strong>Endpoint:</strong> /leaderboards/player-results</li>
 <li>
 <strong>Parameters:</strong> </li>
-</ul><table>
-<thead><tr>
+</ul>
+
+<table>
+<thead>
+<tr>
 <th>Name</th>
 <th align="center">Type</th>
 <th align="right">Value</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr>
 <td>player_id</td>
@@ -589,7 +636,9 @@ If you identify a user multiple times with the same id, the existing player will
 <td align="right">(<strong>Optional</strong>) The maximum player position acceptance for the leaderboard to be selected.</td>
 </tr>
 </tbody>
-</table><div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards/player-results
+</table>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards/player-results
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 -H <span class="s2">"Content-Type:application/json"</span>
 -F <span class="s1">'{</span>
@@ -631,12 +680,16 @@ If you identify a user multiple times with the same id, the existing player will
 <li>
 <strong>Endpoint:</strong> /leaderboards</li>
 <li><strong>Parameters:</strong></li>
-</ul><table>
-<thead><tr>
+</ul>
+
+<table>
+<thead>
+<tr>
 <th>Name</th>
 <th align="center">Type</th>
 <th align="right">Value</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr>
 <td>type</td>
@@ -669,7 +722,9 @@ If you identify a user multiple times with the same id, the existing player will
 <td align="right">Is the leaderboard active? Default to true</td>
 </tr>
 </tbody>
-</table><p>Example:</p>
+</table>
+
+<p>Example:</p>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
@@ -725,7 +780,9 @@ Rewards are Badges. Each reward defines the position in the leaderboard to who t
 <strong>Method:</strong> DELETE</li>
 <li>
 <strong>Endpoint:</strong> /leaderboards/:leaderboard_reference_id</li>
-</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards/my-leaderboard
+</ul>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/leaderboards/my-leaderboard
 -X DELETE
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 -H <span class="s2">"Content-Type:application/json"</span>
@@ -735,6 +792,221 @@ Rewards are Badges. Each reward defines the position in the leaderboard to who t
 <a name="badges" class="anchor" href="#badges"><span class="octicon octicon-link"></span></a>Badges</h2>
 
 <h3>
+<a name="creating-a-badge" class="anchor" href="#creating-a-badge"><span class="octicon octicon-link"></span></a>Creating a Badge</h3>
+
+<ul>
+<li>
+<strong>Method:</strong> POST</li>
+<li>
+<strong>Endpoint:</strong> /badges</li>
+<li><strong>Parameters:</strong></li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th align="center">Type</th>
+<th align="right">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td align="center">String</td>
+<td align="right">
+<strong>(Required)</strong> The name of the badge</td>
+</tr>
+<tr>
+<td>reference_id</td>
+<td align="center">String</td>
+<td align="right">
+<strong>(Required)</strong> The reference_id or id of the badge</td>
+</tr>
+<tr>
+<td>icon</td>
+<td align="center">String</td>
+<td align="right">
+<strong>(Required)</strong> The url to the badge icon image (e.g: <a href="http://path-to-image.png">http://path-to-image.png</a>)</td>
+</tr>
+<tr>
+<td>group</td>
+<td align="center">String</td>
+<td align="right">
+<strong>(Optional)</strong> The name or id of the group. If the group doesn't exists it will be created automatically</td>
+</tr>
+<tr>
+<td>message</td>
+<td align="center">String</td>
+<td align="right">
+<strong>(Optional)</strong> The congratulation message for unlocking the badge</td>
+</tr>
+<tr>
+<td>hint</td>
+<td align="center">String</td>
+<td align="right">
+<strong>(Optional)</strong> The hint for how to unlock the badge (e.g: <a href="http://path-to-image.png">http://path-to-image.png</a>)</td>
+</tr>
+<tr>
+<td>unique</td>
+<td align="center">Boolean</td>
+<td align="right">
+<strong>(Optional)</strong> Default to true. Can this badge be unlocked only once per player?</td>
+</tr>
+<tr>
+<td>limit</td>
+<td align="center">Integer</td>
+<td align="right">
+<strong>(Optional)</strong> Default to 0 (infinity). How many times can this badge be unlocked?</td>
+</tr>
+<tr>
+<td>metadata</td>
+<td align="center">Object</td>
+<td align="right">
+<strong>(Optional)</strong> Metadata are used if you want to keep track of some application-logic related data. (Optional)</td>
+</tr>
+<tr>
+<td>active</td>
+<td align="center">Boolean</td>
+<td align="right">
+<strong>(Optional)</strong> Default to true. Can this badge be unlocked now</td>
+</tr>
+</tbody>
+</table>
+
+<p>Example:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/badges
+-X POST
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
+-H <span class="s2">"Content-Type:application/json"</span>
+-f <span class="s1">'{</span>
+<span class="s1">  "name": "My Awesome Badge",</span>
+<span class="s1">  "reference_id": "my-awesome-badge",</span>
+<span class="s1">  "group": "limited-edition",</span>
+<span class="s1">  "message": "The congratulation message",</span>
+<span class="s1">  "hint": "How to unlock this badge?",</span>
+<span class="s1">  "limit": 42,</span>
+<span class="s1">  "unique": true,</span>
+<span class="s1">  "active": true,</span>
+<span class="s1">  "metadata": {</span>
+<span class="s1">    "foo": "bar"</span>
+<span class="s1">  }</span>
+<span class="s1">}'</span>
+</pre></div>
+
+<h3>
+<a name="updating-a-badge" class="anchor" href="#updating-a-badge"><span class="octicon octicon-link"></span></a>Updating a Badge</h3>
+
+<ul>
+<li>
+<strong>Method:</strong> PUT</li>
+<li>
+<strong>Endpoint:</strong> /badges/:badge_id_or_reference_id</li>
+<li><strong>Parameters:</strong></li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th align="center">Type</th>
+<th align="right">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td align="center">String</td>
+<td align="right">
+<strong>(Optional)</strong> The name of the badge</td>
+</tr>
+<tr>
+<td>reference_id</td>
+<td align="center">String</td>
+<td align="right">
+<strong>(Optional)</strong> The reference_id or id of the badge</td>
+</tr>
+<tr>
+<td>icon</td>
+<td align="center">String</td>
+<td align="right">
+<strong>(Optional)</strong> The url to the badge icon image (e.g: <a href="http://path-to-image.png">http://path-to-image.png</a>)</td>
+</tr>
+<tr>
+<td>group</td>
+<td align="center">String</td>
+<td align="right">
+<strong>(Optional)</strong> The name or id of the group. If the group doesn't exists it will be created automatically</td>
+</tr>
+<tr>
+<td>message</td>
+<td align="center">String</td>
+<td align="right">
+<strong>(Optional)</strong> The congratulation message for unlocking the badge</td>
+</tr>
+<tr>
+<td>hint</td>
+<td align="center">String</td>
+<td align="right">
+<strong>(Optional)</strong> The hint for how to unlock the badge (e.g: <a href="http://path-to-image.png">http://path-to-image.png</a>)</td>
+</tr>
+<tr>
+<td>unique</td>
+<td align="center">Boolean</td>
+<td align="right">
+<strong>(Optional)</strong> Default to true. Can this badge be unlocked only once per player?</td>
+</tr>
+<tr>
+<td>limit</td>
+<td align="center">Integer</td>
+<td align="right">
+<strong>(Optional)</strong> Default to 0 (infinity). How many times can this badge be unlocked?</td>
+</tr>
+<tr>
+<td>metadata</td>
+<td align="center">Object</td>
+<td align="right">
+<strong>(Optional)</strong> Metadata are used if you want to keep track of some application-logic related data. (Optional)</td>
+</tr>
+<tr>
+<td>active</td>
+<td align="center">Boolean</td>
+<td align="right">
+<strong>(Optional)</strong> Default to true. Can this badge be unlocked now</td>
+</tr>
+</tbody>
+</table>
+
+<p>Example:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/badges/my-awesome-badge
+-X PUT
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
+-H <span class="s2">"Content-Type:application/json"</span>
+-f <span class="s1">'{</span>
+<span class="s1">  "active": false</span>
+<span class="s1">}'</span>
+</pre></div>
+
+<h3>
+<a name="deleting-a-badge" class="anchor" href="#deleting-a-badge"><span class="octicon octicon-link"></span></a>Deleting a Badge</h3>
+
+<ul>
+<li>
+<strong>Method:</strong> DELETE</li>
+<li>
+<strong>Endpoint:</strong> /badges/:badge_id_or_reference_id</li>
+</ul>
+
+<p>Example:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/badges/my-awesome-badge
+-X DELETE
+-H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
+</pre></div>
+
+<h3>
 <a name="getting-unlocked-badges-of-a-player" class="anchor" href="#getting-unlocked-badges-of-a-player"><span class="octicon octicon-link"></span></a>Getting unlocked badges of a player</h3>
 
 <ul>
@@ -742,7 +1014,9 @@ Rewards are Badges. Each reward defines the position in the leaderboard to who t
 <strong>Method:</strong> GET</li>
 <li>
 <strong>Endpoint:</strong> /players/:player_reference_id/badges</li>
-</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/badges
+</ul>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/badges
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 
 <span class="c"># Example Response</span>
@@ -826,7 +1100,9 @@ Rewards are Badges. Each reward defines the position in the leaderboard to who t
 <strong>Method:</strong> GET</li>
 <li>
 <strong>Endpoint:</strong> /players/:player_reference_id/badges/todo</li>
-</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/badges/todo
+</ul>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl http://api.behave.io/players/42/badges/todo
 -H <span class="s2">"X-Behave-Api-Token:YOUR_API_TOKEN"</span>
 
 <span class="c"># Example Response</span>
